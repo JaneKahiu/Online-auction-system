@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Auction</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .image-preview {
+            margin-top: 15px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <h2 class="text-center mb-4">Create New Auction</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}">Title</label>
+                            {{ form.title }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.description.id_for_label }}">Description</label>
+                            {{ form.description }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.starting_bid.id_for_label }}">Starting Bid</label>
+                            {{ form.starting_bid }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.end_date.id_for_label }}">End Date</label>
+                            {{ form.end_date }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.category.id_for_label }}">Category</label>
+                            {{ form.category }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.image.id_for_label }}">Image</label>
+                            {{ form.image }}
+                            <!-- Image preview -->
+                            {% if form.instance.image %}
+                                <img src="{{ form.instance.image.url }}" alt="Auction Image" class="image-preview mt-3">
+                            {% else %}
+                                <img id="imagePreview" class="image-preview mt-3" src="#" alt="Image Preview" style="display:none;">
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Auction</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Image preview script -->
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
